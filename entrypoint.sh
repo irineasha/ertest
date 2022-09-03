@@ -39,7 +39,7 @@ EOF
 
 # Sync using our dedicated profile and suppress verbose messages.
 # All other flags are optional via the `args:` directive.
-sh -c "aws s3 sync ${SOURCE_DIR:-.} s3://${AWS_S3_BUCKET} \
+sh -c "aws s3 sync s3://${AWS_S3_BUCKET} \
               --profile ertest \
               --no-progress \
               ${ENDPOINT_APPEND} $*"
