@@ -17,9 +17,9 @@ jobs:
       - id: tag
         uses: haya14busa/action-cond@v1
         with:
-          cond: "${{ steps.get-latest-tag.outputs.tag == ' ' }}"
-          if_true: "v1.0.1-RC"
-          if_false: "v1.0.2-RC"
+          cond: "${{ steps.get-latest-tag.outputs.tag == null }}"
+          if_true: "v1.0.1"
+          if_false: "v1.0.2"
               
       - uses: actions-ecosystem/action-push-tag@v1
         with:
