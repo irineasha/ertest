@@ -22,5 +22,5 @@ jobs:
 
       - uses: actions-ecosystem/action-push-tag@v1
         with:
-          tag: ${{ steps.bump-semver.outputs.new_version }} + "-RC"
+          tag: ${{ steps.bump-semver.outputs.new_version }."-RC"}
           message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
