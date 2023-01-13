@@ -16,6 +16,8 @@ jobs:
 
       - uses: mad9000/actions-find-and-replace-string@2
         id: replaced-version
+        run: |
+          echo "".replaced-version
         with:
           source: ${{ steps.get-latest-tag.outputs.tag }}
           find: '-RC'        
@@ -24,7 +26,7 @@ jobs:
       - uses: actions-ecosystem/action-bump-semver@v1
         id: bump-semver
         with:
-          current_version: ${{ steps.replaced-version }}
+          current_version: ${{ steps.replaced-version.outputs.value }}
           level: minor
           
       - uses: actions-ecosystem/action-push-tag@v1
