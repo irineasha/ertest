@@ -17,10 +17,10 @@ jobs:
       - uses: actions-ecosystem/action-bump-semver@v1
         id: bump-semver
         with:
-          current_version: ${{ steps.get-latest-tag.outputs.tag }}
+          current_version: ${{ steps.get-latest-tag.outputs.tag }}.replaceAll("-RC")
           level: minor
 
       - uses: actions-ecosystem/action-push-tag@v1
         with:
-          tag: ${{ steps.bump-semver.outputs.new_version }."-RC"}
+          tag: ${{ steps.bump-semver.outputs.new_version }.{"-RC"}}
           message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
