@@ -24,7 +24,7 @@ jobs:
       - uses: actions-ecosystem/action-bump-semver@v1
         id: bump-semver
         with:
-          cond: ${{ steps.replaced-version.outputs.value == '' }}
+          cond: ${{ steps.replaced-version.outputs.value == "" }}
           if_true: steps.replaced-version.outputs.value = '1.0.1'
           if_false: ${{ steps.replaced-version.outputs.value}}
           current_version: ${{ steps.replaced-version.outputs.value }}
