@@ -13,6 +13,10 @@ jobs:
 
       - uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
+       
+      - name: GitHub Tag Name example
+        run: |
+          echo "${{ steps.get-latest-tag.outputs.tag }}"
 
       - id: tag
         uses: haya14busa/action-cond@v1
@@ -20,6 +24,8 @@ jobs:
           cond: "${{ startsWith(steps.get-latest-tag.outputs.value, 'v1.0.1') }}"
           if_true: "v1.0.2"
           if_false: "v1.0.1"
+          
+          
               
       - uses: actions-ecosystem/action-push-tag@v1
         with:
