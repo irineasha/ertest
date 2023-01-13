@@ -16,7 +16,6 @@ jobs:
 
       - uses: mad9000/actions-find-and-replace-string@2
         id: replaced-version
-        run: echo "{replaced-version}"
         with:
           source: ${{ steps.get-latest-tag.outputs.tag }}
           find: '-RC'        
