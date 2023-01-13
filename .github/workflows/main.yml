@@ -25,8 +25,8 @@ jobs:
         id: bump-semver
         with:
           cond: ${{ steps.replaced-version.outputs.value == '' }}
-          if_true: steps.replaced-version.outputs.value = "1.0.1"
-          current_version: "v1.0.0" #${{ steps.replaced-version.outputs.value }}
+          if_true: steps.replaced-version.outputs.value = "0.0.1"
+          current_version: "v0.0.1" #${{ steps.replaced-version.outputs.value }}
           level: minor
           
       - uses: actions-ecosystem/action-push-tag@v1
