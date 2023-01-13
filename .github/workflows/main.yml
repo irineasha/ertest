@@ -24,7 +24,7 @@ jobs:
       - uses: actions-ecosystem/action-bump-semver@v1
         id: bump-semver
         with:
-          current_version: ${{ steps.replaced-version }}
+          current_version: ${{ steps.replaced-version.outputs.tag }}
           level: minor
           
       - uses: actions-ecosystem/action-push-tag@v1
