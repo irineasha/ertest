@@ -6,10 +6,7 @@ on:
       - main
 jobs:
   release:
-    runs-on: ubuntu-latest
-    outputs:
-      output1: ${{ steps.step1.outputs.test }}
-      output2: ${{ steps.step2.outputs.test }}
+    runs-on: ubuntu-latest 
     steps:
       
       - uses: actions/checkout@v2
@@ -21,19 +18,19 @@ jobs:
           echo "${{ steps.get-latest-tag.outputs.tag }}"
 
       - id: step1
-        uses: actions-ecosystem/action-push-tag@v1
         if: ${{ steps.get-latest-tag.outputs.tag == 'v0.0.0' }}
+        uses: actions-ecosystem/action-push-tag@v1
         with:
             tag: "v1.0.1-RC"
             message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
       - id: step2
+        if: ${{ steps.get-latest-tag.outputs.tag != 'v0.0.0' }}
         uses: actions-ecosystem/action-push-tag@v1
-        if: ${{ steps.get-latest-tag.outputs.tag == 'v1.0.1-RC' }}
         with:
             tag: "v1.0.2-RC"
             message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
       - name: Print Values
         run: |
-          echo "${{ needs.jobs.step1.tag }}"
-          echo "${{ needs.jobs.step2.tag }}"
+          echo "${{ step1.tag }}"
+          echo "${{ step2.tag }}"
        
