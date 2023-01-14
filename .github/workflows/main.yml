@@ -35,6 +35,6 @@ jobs:
         if: ${{ steps.get-latest-tag.outputs.tag != 'v0.0.0' }}
         uses: actions-ecosystem/action-push-tag@v1
         with:
-            tag: echo "${{ steps.step1.outputs.value }}"
+            tag: ${{ jobs.release.steps.step1.outputs.value }}
             message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
  
