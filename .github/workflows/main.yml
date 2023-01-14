@@ -24,7 +24,6 @@ jobs:
           echo "${{ steps.get-latest-tag.outputs.tag }}"
 
       - id: tag
-        run: |
           - ${{ if ne(steps.get-latest-tag.outputs.tag, 'v1.0.1-RC') }}:
           - script: "v1.0.2"
           - ${{ if ne(steps.get-latest-tag.outputs.tag, 'v1.0.1-RC') }}:
