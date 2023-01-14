@@ -22,9 +22,7 @@ jobs:
           Number=$(echo ${{ steps.get-latest-tag.outputs.tag }} | sed 's/[^0-9]*//g');
           Number=$((Number + 1));
           Number=$(echo "v${Number:0:1}.${Number:1:1}.${Number:2:2}-RC");
-          echo $Number;
-        env:
-          STEPS_CONTEXT: $Number
+          echo ::set-output name=version::$Number ;
     
       - id: step2
         if: ${{ steps.get-latest-tag.outputs.tag == 'v0.0.0' }}
@@ -37,6 +35,6 @@ jobs:
         if: ${{ steps.get-latest-tag.outputs.tag != 'v0.0.0' }}
         uses: actions-ecosystem/action-push-tag@v1
         with:
-            tag: ${{ steps.step1.env.STEPS_CONTEXT }}
+            tag: ${{ steps.step1.outputs.version }}
             message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
  
