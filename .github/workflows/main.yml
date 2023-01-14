@@ -31,6 +31,6 @@ jobs:
             message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
       - name: Print Values
         run: |
-          echo "${{ step1.tag }}"
-          echo "${{ step2.tag }}"
+          echo "${{ steps.step1.tag }}"
+          echo "${{ steps.step2.tag }}"
        
