@@ -9,13 +9,11 @@ env:
 jobs:
   release:
     runs-on: ubuntu-latest
-    
     outputs:
       output1: ${{ steps.step1.outputs.test }}
       output2: ${{ steps.step2.outputs.test }}
     steps:
-      - env:
-          NEW_DATA: Token
+      
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
@@ -24,11 +22,19 @@ jobs:
         run: |
           echo "${{ steps.get-latest-tag.outputs.tag }}"
 
-      - if: ${{ steps.get-latest-tag.outputs.tag == 'v1.0.1-RC' }}
-        run: echo '$PATH=v1.0.2'
+      - id: step1
+        if: ${{ steps.get-latest-tag.outputs.tag == 'v1.0.1-RC' }}
+        run: echo 'test=v1.0.2'
+        
+      - id: step2
       - if: ${{ steps.get-latest-tag.outputs.tag == 'v1.0.2-RC' }}
-        run: echo '$PATH=v1.0.1'
-         
+        run: echo 'test=v1.0.1'
+       
+      - name: Print tags
+        run: |
+          echo "${{needs.release.outputs.output1}}"
+          echo "${{needs.release.outputs.output2}}"
+          
       - uses: actions-ecosystem/action-push-tag@v1
         with:
           tag: $PATH-RC
