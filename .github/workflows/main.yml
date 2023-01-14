@@ -4,10 +4,15 @@ on:
   push:
     branches:
       - main
+env:
+  PATH: Here Path   
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.step1.outputs.test }}
+      output2: ${{ steps.step2.outputs.test }}
     steps:
       - uses: actions/checkout@v2
 
@@ -22,10 +27,10 @@ jobs:
         uses: haya14busa/action-cond@v1
         with:
           cond: "'${{steps.get-latest-tag.outputs.tag}}' == 'v1.0.1-RC'"  #cond: "${{ startsWith(steps.get-latest-tag.outputs.tag, 'v1.0.1-RC') }}"   
-          if_true: ${{CF_BRANCH}} = 'v1.0.2'
-          if_false: ${{CF_BRANCH}} = 'v1.0.1' 
+          if_true: $PATH = 'v1.0.2'
+          if_false: $PATH ='v1.0.1'
               
       - uses: actions-ecosystem/action-push-tag@v1
         with:
-          tag: ${{CF_BRANCH}}-RC
+          tag: $PATH-RC
           message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
