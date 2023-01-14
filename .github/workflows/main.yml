@@ -23,19 +23,19 @@ jobs:
           echo "${{ steps.get-latest-tag.outputs.tag }}"
 
       - id: step1
-        if: ${{ steps.get-latest-tag.outputs.tag == 'v1.0.1-RC' }}
-        run: echo 'test=v1.0.2'
-        
+        if: ${{ steps.get-latest-tag.outputs.tag == 'v0.0.0' }}
+        run: | 
+            echo 'test=v1.0.1'
+            tag: "v1.0.1-RC"
+            message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
       - id: step2
-        if: ${{ steps.get-latest-tag.outputs.tag == 'v1.0.2-RC' }}
-        run: echo 'test=v1.0.1'
-       
-      - name: Print tags
+        if: ${{ steps.get-latest-tag.outputs.tag == 'v1.0.1-RC' }}
+        run: | 
+            echo 'test=v1.0.2'
+            tag: "v1.0.2-RC"
+            message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
+      - name: Print Values
         run: |
-          echo "${{needs.release.outputs.output1}}"
-          echo "${{needs.release.outputs.output2}}"
-          
-      - uses: actions-ecosystem/action-push-tag@v1
-        with:
-          tag: ${{needs.release.outputs.output1}}-RC
-          message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
+          echo "${{ needs.jobs.step1.test }}"
+          echo "${{ needs.jobs.step2.test }}"
+       
