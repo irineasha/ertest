@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-env:
-  PATH: Here Path
 jobs:
   release:
     runs-on: ubuntu-latest
