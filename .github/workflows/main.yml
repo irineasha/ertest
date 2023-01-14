@@ -14,8 +14,9 @@ jobs:
       output1: ${{ steps.step1.outputs.test }}
       output2: ${{ steps.step2.outputs.test }}
     steps:
+      - env:
+          NEW_DATA: Token
       - uses: actions/checkout@v2
-
       - uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
        
@@ -23,13 +24,12 @@ jobs:
         run: |
           echo "${{ steps.get-latest-tag.outputs.tag }}"
 
-      - id: tag
-          - ${{ if ne(steps.get-latest-tag.outputs.tag, 'v1.0.1-RC') }}:
-          - script: "v1.0.2"
-          - ${{ if ne(steps.get-latest-tag.outputs.tag, 'v1.0.1-RC') }}:
-          - script: "v1.0.1"
-              
+      - if: ${{ steps.get-latest-tag.outputs.tag == 'v1.0.1-RC' }}
+        run: echo '$PATH=v1.0.2'
+      - if: ${{ steps.get-latest-tag.outputs.tag == 'v1.0.2-RC' }}
+        run: echo '$PATH=v1.0.1'
+         
       - uses: actions-ecosystem/action-push-tag@v1
         with:
-          tag: ${{ steps.tag.outputs.value }}-RC
+          tag: $PATH-RC
           message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
