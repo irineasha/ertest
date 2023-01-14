@@ -17,13 +17,14 @@ jobs:
         run: |
           echo "${{ steps.get-latest-tag.outputs.tag }}"
 
-      - id: step1
+      - name: Get New Version Number
+        id: step1
         run: |
           Number=$(echo ${{ steps.get-latest-tag.outputs.tag }} | sed 's/[^0-9]*//g');
           Number=$((Number + 1));
           Number=$(echo "v.${Number:0:1}.${Number:1:1}.${Number:2:2}-RC");
           echo $Number;    
-          
+    
       - id: step2
         if: ${{ steps.get-latest-tag.outputs.tag == 'v0.0.0' }}
         uses: actions-ecosystem/action-push-tag@v1
