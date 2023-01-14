@@ -18,11 +18,12 @@ jobs:
           echo "${{ steps.get-latest-tag.outputs.tag }}"
 
       - name: Calc version
+        id: newtagname
         run: |
           Number=$(echo ${{ steps.get-latest-tag.outputs.tag }} | sed 's/[^0-9]*//g');
           Number=$((Number + 1));
           Number=$(echo "v.${Number:0:1}.${Number:1:1}.${Number:2:2}-RC");
-          echo "New Version $Number";
+          echo "$Number";
           
       - id: step1
         if: ${{ steps.get-latest-tag.outputs.tag == 'v0.0.0' }}
@@ -34,10 +35,7 @@ jobs:
         if: ${{ steps.get-latest-tag.outputs.tag != 'v0.0.0' }}
         uses: actions-ecosystem/action-push-tag@v1
         with:
-            tag: "v1.0.2-RC"
+            tag: ${{ steps.newtagname.outputs.value }
             message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
-      - name: Print Values
-        run: |
-          echo "${{ steps.step1.tag }}"
-          echo "${{ steps.step2.tag }}"
+ 
        
