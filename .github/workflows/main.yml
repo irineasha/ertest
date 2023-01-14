@@ -24,13 +24,13 @@ jobs:
           echo "${{ steps.get-latest-tag.outputs.tag }}"
 
       - id: tag
-        uses: haya14busa/action-cond@v1
-        with:
-          cond: "'${{steps.get-latest-tag.outputs.tag}}' == 'v1.0.1-RC'"  #cond: "${{ startsWith(steps.get-latest-tag.outputs.tag, 'v1.0.1-RC') }}"   
-          if_true: $PATH = "v1.0.2"
-          if_false: $PATH = "v1.0.1"
+        run: |
+          - ${{ if ne(steps.get-latest-tag.outputs.tag, 'v1.0.1-RC') }}:
+          - script: "v1.0.2"
+          - ${{ if ne(steps.get-latest-tag.outputs.tag, 'v1.0.1-RC') }}:
+          - script: "v1.0.1"
               
       - uses: actions-ecosystem/action-push-tag@v1
         with:
-          tag: $PATH-RC
+          tag: ${{ steps.tag.outputs.value }}-RC
           message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
