@@ -16,24 +16,24 @@ jobs:
         run: |
           echo "${{ steps.get-latest-tag.outputs.tag }}"
 
-      - id: newtagname
+      - id: step1
         run: |
           Number=$(echo ${{ steps.get-latest-tag.outputs.tag }} | sed 's/[^0-9]*//g');
           Number=$((Number + 1));
           Number=$(echo "v.${Number:0:1}.${Number:1:1}.${Number:2:2}-RC");
           echo $Number;    
           
-      - id: step1
+      - id: step2
         if: ${{ steps.get-latest-tag.outputs.tag == 'v0.0.0' }}
         uses: actions-ecosystem/action-push-tag@v1
         with:
             tag: "v1.0.1-RC"
             message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
       
-      - id: step2
+      - id: step3
         if: ${{ steps.get-latest-tag.outputs.tag != 'v0.0.0' }}
         uses: actions-ecosystem/action-push-tag@v1
         with:
-            tag: ${{ steps.newtagname.outputs.value }}
+            tag: ${{ steps.step1.outputs.value }}
             message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
  
