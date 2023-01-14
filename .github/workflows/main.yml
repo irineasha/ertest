@@ -22,8 +22,8 @@ jobs:
         uses: haya14busa/action-cond@v1
         with:
           cond: "'${{steps.get-latest-tag.outputs.tag}}' == 'v1.0.1-RC'"  #cond: "${{ startsWith(steps.get-latest-tag.outputs.tag, 'v1.0.1-RC') }}"   
-          if_true: "'${{CF_BRANCH}}' == 'v1.0.2'" 
-          if_false: "'${{CF_BRANCH}}' == 'v1.0.1'" 
+          if_true: "'${{CF_BRANCH}}' = 'v1.0.2'" 
+          if_false: "'${{CF_BRANCH}}' = 'v1.0.1'" 
               
       - uses: actions-ecosystem/action-push-tag@v1
         with:
