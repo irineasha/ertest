@@ -27,7 +27,7 @@ jobs:
         run: echo 'test=v1.0.2'
         
       - id: step2
-      - if: ${{ steps.get-latest-tag.outputs.tag == 'v1.0.2-RC' }}
+        if: ${{ steps.get-latest-tag.outputs.tag == 'v1.0.2-RC' }}
         run: echo 'test=v1.0.1'
        
       - name: Print tags
