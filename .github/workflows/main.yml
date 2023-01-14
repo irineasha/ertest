@@ -21,7 +21,7 @@ jobs:
           Number=$(echo ${{ steps.get-latest-tag.outputs.tag }} | sed 's/[^0-9]*//g');
           Number=$((Number + 1));
           Number=$(echo "v.${Number:0:1}.${Number:1:1}.${Number:2:2}-RC");
-          echo "${{Number}}";    
+          echo $Number;    
           
       - id: step1
         if: ${{ steps.get-latest-tag.outputs.tag == 'v0.0.0' }}
